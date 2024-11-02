@@ -5,16 +5,51 @@ let transactions_list=[
     [number=4,from='you',to='1005',amount=20,date='21/2/2024'],
     [number=5,from='1006',to='you',amount=100,date='21/2/2024'],
 ]
-let create_btn=document.getElementById('create');
-create_btn.addEventListener('click',()=>{
-    input_from=document.createElement('input-from');
-    input_from.innerHTML.trim();
+let total_budget=document.getElementById('total');
+total_budget.textContent='Total budget: 1000$';
 
+let create=document.getElementById('create');
+let inputs=document.getElementById('create-inputs');    
+create.addEventListener('click',()=>{
+    inputs.innerHTML =  ` 
+                  <div>
+                    From: <input type="text" id="input-from">
+                    To: <input type="text" id="input-to">
+                    Amount:<input type="text" id="input-amount">
+                    Date:<input type="text" id="input-date">
+                    <div class="create" id="create-btn">create</div>
+                  </div>
+                  `;
+
+    
+let create_btn=document.getElementById('create-btn');
+create_btn.addEventListener('click',()=>{
+    let input_from=document.getElementById('input-from');
+    let input_to=document.getElementById('input-to');
+    let input_amount=document.getElementById('input-amount');
+    let input_date=document.getElementById('input-date');
+    console.log(input_from.value)
+    let row=[1,input_from.value,input_to.value,input_amount.value,input_date.value];
+    transactions_list.push(row);
+    saveTable(transactions_list);
+    console.log(transactions_list);
+    buildTable(transactions_list);
 })
-function buildTable(){
+})
+
+let all=document.getElementById('all');
+let min=document.getElementById('min-amount');
+let max=document.getElementById('max-amount');
+let income=document.getElementById('income');
+let expense=document.getElementById('expense');
+let _date=document.getElementById('date');
+
+
+
+function buildTable(table){
     let tableBody = document.getElementById('transactionTable').getElementsByTagName('tbody')[0];
   tableBody.innerHTML = '';
-transactions_list.forEach((transaction,index) => {
+table.forEach((transaction,index) => {
     const row = tableBody.insertRow();
     row.insertCell(0).innerText = transaction[0];
     row.insertCell(1).innerText = transaction[1];
@@ -39,16 +74,111 @@ function editTransaction(index) {
     let newAmount = prompt("Edit amount:", transaction[3]);
     if (newAmount !== null) {
         transactions_list[index][3] = parseFloat(newAmount);
-        buildTable();
+        buildTable(transactions_list);
     }
 }
 function deleteTransaction(index) {
     if (confirm("Are you sure you want to delete this transaction?")) {
         transactions_list.splice(index, 1); 
-        buildTable(); 
+        buildTable(transactions_list); 
     }
 }
-buildTable();
+all.addEventListener('click',()=> buildTable(transactions_list));
+min.addEventListener('click',()=>{
+    //console.log('min');
+    let temp=transactions_list;
+    console.log(temp)
+    let i=0;
+    let j=0;
+    while(i<temp.length){
+        j=i+1;
+        console.log(j);
+        while(j<temp.length){
+            if(temp[j][3]<temp[i][3])
+                {
+                    console.log(temp)
+                    let row=temp[j]
+                    temp[j]=temp[i]
+                    temp[i]=row
+                    
+                }
+                
+                j++;}
+
+            i++;
+            }
+    buildTable(temp);
+    
+});
+max.addEventListener('click',()=>{
+    let temp=transactions_list;
+    console.log(temp)
+    let i=0;
+    let j=0;
+    while(i<temp.length){
+        j=i+1;
+        console.log(j);
+        while(j<temp.length){
+            if(temp[j][3]>temp[i][3])
+                {
+        
+                    let row=temp[j]
+                    temp[j]=temp[i]
+                    temp[i]=row
+                    
+                }
+                
+                j++;}
+
+            i++;
+            }
+    buildTable(temp);
+
+});
+income.addEventListener('click',()=>{
+    //temp=transactions_list;
+    let temp=[[]];
+    let i=0;
+    let j=0;
+    while (i<transactions_list.length){
+        if(transactions_list[i][2]==='you'){
+            temp[j]=transactions_list[i];
+            j++;
+        }
+        i++;
+    }
+buildTable(temp);
+
+});
+expense.addEventListener('click',()=>{
+    let temp=[[]];
+    let i=0;
+    let j=0;
+    while (i<transactions_list.length){
+        if(transactions_list[i][1]==='you'){
+            temp[j]=transactions_list[i];
+            j++;
+        }
+        i++;
+    }
+buildTable(temp);
+});
+_date.addEventListener('click',()=>{
+
+});
+function saveTable(table) {
+    
+    const table_map = table.map(String);
+    localStorage.setItem('table-map', JSON.stringify(table_map));
+}
+function loadTable() {
+    let savedTable = localStorage.getItem('table-map');
+    return savedTable ? JSON.parse(savedTable) : [];
+}
+/*saveTable(transactions_list);
+temp=loadTable();
+console.log(temp);*/
+buildTable(transactions_list);
 /*
 let view_section=document.getElementById('view-section');
 let view_col=document.getElementById('view-col');

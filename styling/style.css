@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
     width: 100%;
-    background-color: #ddddddd0;
+    background-color: #031e1e;
   }
   .head-line{
     width:100%;
@@ -13,23 +13,6 @@
     align-items:center;
     font-size: 35px;
   } 
-  .transactions{
-    border:2px;
-    border-radius: 10px;
-    border-color: darkcyan;
-    margin:10px;
-    padding: auto;
-    width:80%;
-    flex-direction: column;
-    display: flex; 
-    justify-content:space-between;
-  }
-  .transaction-title{
-    display: flex; 
-    justify-content:space-between;
-    align-items:flex-end;
-    font-size: 25px;
-  }
   .on-line{
     width:90%;
     padding-top: 10px;
@@ -47,33 +30,20 @@
     align-items:flex-start;
 
   }
-  
-  .transaction-box{
-    margin: 10px;
-    border:10px;
-    border-radius: 10px;
-    border-color: darkcyan;
-    
-    flex-direction: column;
-    display: flex; 
-    justify-content:space-evenly;
-    align-items:flex-start;
-  }
   .button{
-    border-color: darkcyan;
+    
+    align-content: center;
+    border: 2px solid rgb(161, 161, 161);
+    color:rgb(161, 161, 161);
     border-radius: 30px;
     margin: 10px;
     padding: 10px;
-    width:30%;
-    height:50px;
+    width:12%;
     font-size: 20px;
 
   }
-  .append{
-    flex-direction: column;
-    display: flex; 
-    justify-content:space-around;
-    align-items:flex-start;
+  .height{
+    height: 150px;
   }
   .row{
     display: flex; 
@@ -83,28 +53,26 @@
     font-size: large;
     color:darkcyan;
   }
-  .section{
-    margin: 30px;
-    flex-direction: column;
-    display: flex; 
-    justify-content:space-between;
-    align-items:center;
 
-  }
   .primary-color{
     font-weight: bold;
-    color:darkcyan;
+    color:rgb(161, 161, 161);
   }
 .transaction-table {
-    width: 50%;
+    border-radius: 20px;
+    color: rgb(161, 161, 161);
+    width: 50%  ;
     border-collapse: collapse;
 }
 th, td {
-    border: 1px solid #ccc;
+    
+    border: 5px solid rgb(161, 161, 161);
+    border-color: rgb(161, 161, 161);
     padding: 8px;
     text-align:center;
     width: 10%;
 }
 th {
-    background-color: #f2f2f2;
+    
+    background-color: #031e1e;
 }
