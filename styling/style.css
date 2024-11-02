@@ -95,3 +95,16 @@
     font-weight: bold;
     color:darkcyan;
   }
+.transaction-table {
+    width: 50%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align:center;
+    width: 10%;
+}
+th {
+    background-color: #f2f2f2;
+}
