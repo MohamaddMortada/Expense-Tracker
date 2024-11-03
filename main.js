@@ -15,7 +15,7 @@ create.addEventListener('click',()=>{
                   <div>
                     <div class="on-line width30">
                         <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
-                                                           <p class="primary-color">Expense</p><input type="radio" name="type" value="Expense">
+                                                           <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
                         
                     
                     </div>
@@ -35,21 +35,16 @@ create.addEventListener('click',()=>{
 let create_btn=document.getElementById('create-btn');
 create_btn.addEventListener('click',()=>{
     let input_type=document.getElementById('input-type').value;
-    if(input_type){
-        console.log(input_type.textContent);
-    }
-    else{
-        console.log('out');
-    }
-    
-    let input_source=document.getElementById('input-source');
-    let input_amount=document.getElementById('input-amount');
+if(input_type!=="Income")
+        console.log("Expense");
+    let input_source=document.getElementById('input-source').value;
+    let input_amount=document.getElementById('input-amount').value;
     let input_date=document.getElementById('input-date').value;
-    if (input_date) {
-        console.log(input_date.textContent)
-    }
     
-    let row=[1,input_type.value,input_source.value,input_amount.value,input_date.value];
+       // console.log(input_amount.value)
+    
+    
+    let row=[input_type,input_source,input_amount,input_date];
     transactions_list.push(row);
     saveTable(transactions_list);
     console.log(transactions_list);
@@ -63,6 +58,7 @@ let max=document.getElementById('max-amount');
 let income=document.getElementById('income');
 let expense=document.getElementById('expense');
 let _date=document.getElementById('date');
+//date_var= new Date(_date);
 
 
 
@@ -71,11 +67,12 @@ function buildTable(table){
   tableBody.innerHTML = '';
 table.forEach((transaction,index) => {
     const row = tableBody.insertRow();
-    date=transaction[3].getDate()+'/'+(transaction[3].getMonth()+1)+'/'+transaction[3].getFullYear();
+    //(transaction[3].getDate())+
+    //date='/'+(transaction[3].getMonth()+1)+'/'+(transaction[3].getFullYear());
     row.insertCell(0).innerText = transaction[0];
     row.insertCell(1).innerText = transaction[1];
     row.insertCell(2).innerText = transaction[2];
-    row.insertCell(3).innerText = date;
+    row.insertCell(3).innerText = transaction[3];
 
      editButton = document.createElement('edit-btn');
         editButton.innerText = '✎';
