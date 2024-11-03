@@ -16,6 +16,7 @@ create.addEventListener('click',()=>{
                     <div class="on-line width30">
                         <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
                                                            <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
+                                                           <div id="exit" class="primary-color" >✖</div>
                         
                     
                     </div>
@@ -49,7 +50,12 @@ if(input_type!=="Income")
     saveTable(transactions_list);
     console.log(transactions_list);
     buildTable(transactions_list);
+    
 })
+let exit=document.getElementById('exit');
+      exit.addEventListener('click',()=>{
+        inputs.innerHTML="";
+      })
 })
 
 
@@ -95,6 +101,7 @@ function editTransaction(index) {
                     <div class="on-line width30">
                         <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
                                                            <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
+                                                            <div id="exit" class="primary-color" >✖</div>
                         
                     
                     </div>
@@ -107,6 +114,7 @@ function editTransaction(index) {
                     
                     </div>
                         <div id="view-btn" class="button">Update</div>
+                       
                   </div>
                   `;
       let input_type=document.getElementById('input-type').value; 
@@ -138,6 +146,10 @@ function editTransaction(index) {
     transactions_list[index]=row;   
     buildTable(transactions_list); 
 
+      })
+      let exit=document.getElementById('exit');
+      exit.addEventListener('click',()=>{
+        inputs.innerHTML="";
       })
 
 }
