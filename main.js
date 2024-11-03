@@ -1,35 +1,55 @@
 let transactions_list=[
-    [number=1,from='you',to='1001',amount=50,date='21/2/2024'],
-    [number=2,from='1003',to='you',amount=100,date='21/2/2024'],
-    [number=3,from='1004',to='you',amount=40,date='21/2/2024'],
-    [number=4,from='you',to='1005',amount=20,date='21/2/2024'],
-    [number=5,from='1006',to='you',amount=100,date='21/2/2024'],
+    [type='Income',source='Monthly Salary',amount=500,date=new Date('2024/2/24')],
+    [type='Expense',source='Roadster Dinner',amount=100,date=new Date('2024/2/24')],
+    [type='Expense',source='Spinnes',amount=40,date=new Date('2024/2/24')],
+    [type='Income',source='OMT Gift',amount=100,date=new Date('2024/2/24')],
+    [type='Expense',source='Alfa Cart',amount=10,date=new Date('2024/2/24')],
 ]
 let total_budget=document.getElementById('total');
 total_budget.textContent='Total budget: 1000$';
 
 let create=document.getElementById('create');
-let inputs=document.getElementById('create-inputs');    
+let inputs=document.getElementById('inputs');    
 create.addEventListener('click',()=>{
     inputs.innerHTML =  ` 
                   <div>
-                    From: <input type="text" id="input-from">
-                    To: <input type="text" id="input-to">
-                    Amount:<input type="text" id="input-amount">
-                    Date:<input type="text" id="input-date">
-                    <div class="create" id="create-btn">create</div>
+                    <div class="on-line width30">
+                        <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
+                                                           <p class="primary-color">Expense</p><input type="radio" name="type" value="Expense">
+                        
+                    
+                    </div>
+                    <div class="on-line width30">
+                    <p class="primary-color">Amount: </p><input type="text" id="input-amount" class="inputs">
+                    <p class="primary-color">Date: </p><input type="date" id="input-date" class="inputs">
+                    </div>
+                    <div class="on-line width30">
+                    <p class="primary-color">Source: </p><input type="text" id="input-source" class="inputs">
+                    
+                    </div>
+                        <div id="create-btn" class="button">create</div>
                   </div>
                   `;
 
     
 let create_btn=document.getElementById('create-btn');
 create_btn.addEventListener('click',()=>{
-    let input_from=document.getElementById('input-from');
-    let input_to=document.getElementById('input-to');
+    let input_type=document.getElementById('input-type').value;
+    if(input_type){
+        console.log(input_type.textContent);
+    }
+    else{
+        console.log('out');
+    }
+    
+    let input_source=document.getElementById('input-source');
     let input_amount=document.getElementById('input-amount');
-    let input_date=document.getElementById('input-date');
-    console.log(input_from.value)
-    let row=[1,input_from.value,input_to.value,input_amount.value,input_date.value];
+    let input_date=document.getElementById('input-date').value;
+    if (input_date) {
+        console.log(input_date.textContent)
+    }
+    
+    let row=[1,input_type.value,input_source.value,input_amount.value,input_date.value];
     transactions_list.push(row);
     saveTable(transactions_list);
     console.log(transactions_list);
@@ -51,19 +71,19 @@ function buildTable(table){
   tableBody.innerHTML = '';
 table.forEach((transaction,index) => {
     const row = tableBody.insertRow();
+    console.log(_date.value);
     row.insertCell(0).innerText = transaction[0];
     row.insertCell(1).innerText = transaction[1];
     row.insertCell(2).innerText = transaction[2];
     row.insertCell(3).innerText = transaction[3];
-    row.insertCell(4).innerText = transaction[4];
 
      editButton = document.createElement('edit-btn');
-        editButton.innerText = 'Edit';
+        editButton.innerText = '✎';
         editButton.addEventListener('click',() => editTransaction(index))
-        row.insertCell(5).appendChild(editButton);
+        row.insertCell(4).appendChild(editButton);
 
      deleteButton = document.createElement('delete-button');
-        deleteButton.innerText = 'Delete';
+        deleteButton.innerText = '✖';
         deleteButton.addEventListener('click',() => deleteTransaction(index))
         row.insertCell(5).appendChild(deleteButton);
 });
@@ -71,9 +91,9 @@ table.forEach((transaction,index) => {
 
 function editTransaction(index) {
     let transaction = transactions_list[index];
-    let newAmount = prompt("Edit amount:", transaction[3]);
+    let newAmount = prompt("Edit amount:", transaction[2]);
     if (newAmount !== null) {
-        transactions_list[index][3] = parseFloat(newAmount);
+        transactions_list[index][2] = parseFloat(newAmount);
         buildTable(transactions_list);
     }
 }
@@ -94,7 +114,7 @@ min.addEventListener('click',()=>{
         j=i+1;
         console.log(j);
         while(j<temp.length){
-            if(temp[j][3]<temp[i][3])
+            if(temp[j][2]<temp[i][2])
                 {
                     console.log(temp)
                     let row=temp[j]
@@ -119,7 +139,7 @@ max.addEventListener('click',()=>{
         j=i+1;
         console.log(j);
         while(j<temp.length){
-            if(temp[j][3]>temp[i][3])
+            if(temp[j][2]>temp[i][2])
                 {
         
                     let row=temp[j]
@@ -141,7 +161,7 @@ income.addEventListener('click',()=>{
     let i=0;
     let j=0;
     while (i<transactions_list.length){
-        if(transactions_list[i][2]==='you'){
+        if(transactions_list[i][0]==='Income'){
             temp[j]=transactions_list[i];
             j++;
         }
@@ -155,7 +175,7 @@ expense.addEventListener('click',()=>{
     let i=0;
     let j=0;
     while (i<transactions_list.length){
-        if(transactions_list[i][1]==='you'){
+        if(transactions_list[i][0]==='Expense'){
             temp[j]=transactions_list[i];
             j++;
         }
@@ -196,7 +216,7 @@ transactions_list.forEach(element=>{
     row.appendChild(element_section);
 
     element_section=document.getElementById('element');
-    element_section.innerHTML=`<div>from:  ${element[1]}</div>`;
+    element_section.innerHTML=`<div>type:  ${element[1]}</div>`;
     row.appendChild(element_section);
 
     element_section=document.getElementById('element');
@@ -222,9 +242,9 @@ let create_section=document.getElementById('append');
 let create_btn=document.getElementById('create');
 create_btn.addEventListener('click',()=>{
 
-row.innerHTML =  `Input the Id of the user you want to make the transaction to: <div class="word"><input type="text"></div> 
-                  Input the Money you want to transfer: <div class="word"><input type="text"></div> 
-                  <button class="button primary-color">Create</button>`;
+row.innerHTML =  `Input the Id of the user you want source make the transaction source: <div class="word"><input type="text"></div> 
+                  Input the Money you want source transfer: <div class="word"><input type="text"></div> 
+                  <butsourcen class="butsourcen primary-color">Create</butsourcen>`;
 //row.style.display = 'block';
 
 });
@@ -237,8 +257,8 @@ view_btn.addEventListener('click',()=>{
 
 row.innerHTML =  `Your transactions are as follow: 
                   <div>
-                    <button class="button primary-color">Edit</button>
-                    <button class="button primary-color">Delete</button>
+                    <butsourcen class="butsourcen primary-color">Edit</butsourcen>
+                    <butsourcen class="butsourcen primary-color">Delete</butsourcen>
                   </div>
                   `;
 //row.style.display = 'block';
