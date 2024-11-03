@@ -106,7 +106,7 @@ function editTransaction(index) {
                     <p class="primary-color">Source: </p><input type="text" id="input-source" class="inputs">
                     
                     </div>
-                        <div id="create-btn" class="button">Update</div>
+                        <div id="view-btn" class="button">Update</div>
                   </div>
                   `;
       let input_type=document.getElementById('input-type').value; 
@@ -120,6 +120,26 @@ function editTransaction(index) {
       let input_date=document.getElementById('input-date');
       //console.log(input_date.value.getFullYear)
       input_date.value=transactions_list[index][3]
+      let view_btn=document.getElementById('view-btn'); 
+
+      view_btn.addEventListener('click',()=>{
+
+    let input_type=document.getElementById('input-type').value;
+    if(input_type!=="Income")
+        console.log("Expense");
+    let input_source=document.getElementById('input-source').value;
+    let input_amount=document.getElementById('input-amount').value;
+    let input_date=document.getElementById('input-date').value;
+    
+       // console.log(input_amount.value)
+    
+    
+    let row=[input_type,input_source,input_amount,input_date];
+    transactions_list[index]=row;   
+    buildTable(transactions_list); 
+
+      })
+
 }
 function deleteTransaction(index) {
     if (confirm("Are you sure you want to delete this transaction?")) {
