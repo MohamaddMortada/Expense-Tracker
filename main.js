@@ -6,30 +6,49 @@ let transactions_list=[
     [type='Expense',source='Alfa Cart',amount=10,date=new Date('2024/5/24')],
 ]
 let total_budget=document.getElementById('total');
-total_budget.textContent='Total budget: 1000$';
+let total=0;
+let i=0;
+const loadedArray = loadArrayFromLocalStorage();
+transactions_list=loadedArray;
+  buildTable(transactions_list);
+  console.log(loadedArray); 
+
+while(i<transactions_list.length){
+    if(transactions_list[i][0]=="Income")
+        total+=parseInt(transactions_list[i][2]);
+    else{
+        total-=parseInt(transactions_list[i][2]);
+    }
+    i++
+}
+total_budget.innerHTML=total+'$';
+
 
 let create=document.getElementById('create');
 let inputs=document.getElementById('inputs');    
 create.addEventListener('click',()=>{
     inputs.innerHTML =  ` 
-                  <div>
-                    <div class="on-line width30">
-                        <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
-                                                           <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
-                                                           <div id="exit" class="primary-color" >✖</div>
-                        
-                    
-                    </div>
-                    <div class="on-line width30">
-                    <p class="primary-color">Amount: </p><input type="text" id="input-amount" class="inputs">
-                    <p class="primary-color">Date: </p><input type="date" id="input-date" class="inputs">
-                    </div>
-                    <div class="on-line width30">
-                    <p class="primary-color">Source: </p><input type="text" id="input-source" class="inputs">
-                    
-                    </div>
-                        <div id="create-btn" class="button">create</div>
+                  <div class="on-col">
+                  <div class="on-line width70">
+                        <p class="primary-color">Type: </p>
+                        <div class="primary-color">Income</div>
+                        <input type="radio" name="type" id="input-type" value="Income">
+                        <p class="primary-color">Expense</p>
+                        <input type="radio" name="type" id="input-type" value="Expense">
+                        <p class="primary-color">Source:</p>
+                        <input type="input" class="inputs" id="input-source">
+                        <div id="exit" class="primary-color" >✖</div>
                   </div>
+                  <div class="on-line width60">
+                        <p class="primary-color">Amount:</p>
+                        <input type="input" class="inputs" id="input-amount">
+                        <p class="primary-color">Date:</p>
+                     <input type="Date" class="inputs" id="input-date">
+                     <div id="create-btn" class="primary-color padding" >Create</div>
+                  </div>
+                
+                 
+                  </div>  
                   `;
 
     
@@ -47,8 +66,8 @@ if(input_type!=="Income")
     
     let row=[input_type,input_source,input_amount,input_date];
     transactions_list.push(row);
-    saveTable(transactions_list);
     console.log(transactions_list);
+      saveArrayToLocalStorage(transactions_list);
     buildTable(transactions_list);
     
 })
@@ -56,6 +75,7 @@ let exit=document.getElementById('exit');
       exit.addEventListener('click',()=>{
         inputs.innerHTML="";
       })
+      
 })
 
 
@@ -82,14 +102,22 @@ table.forEach((transaction,index) => {
     row.insertCell(3).innerText = transaction[3];
 
      editButton = document.createElement('edit-btn');
-        editButton.innerText = '✎';
+        editButton.innerText = ' ✎ ';
         editButton.addEventListener('click',() => editTransaction(index))
-        row.insertCell(4).appendChild(editButton);
+        editButton.style.padding='20px';
+        //row.insertCell(4).appendChild(editButton);
 
      deleteButton = document.createElement('delete-button');
-        deleteButton.innerText = '✖';
+     deleteButton.style.padding='20px';
+        deleteButton.innerText = ' ✖ ';
         deleteButton.addEventListener('click',() => deleteTransaction(index))
-        row.insertCell(5).appendChild(deleteButton);
+        //row.insertCell(5).appendChild(deleteButton);
+    let combine=document.createElement('combine');
+        combine.appendChild(editButton);
+        combine.appendChild(deleteButton);
+        
+        row.insertCell(4).appendChild(combine);
+
 });
 }
 
@@ -97,25 +125,28 @@ function editTransaction(index) {
     let transaction = transactions_list[index];
     inputs=document.getElementById('inputs'); 
     inputs.innerHTML =  ` 
-                  <div>
-                    <div class="on-line width30">
-                        <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
-                                                           <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
-                                                            <div id="exit" class="primary-color" >✖</div>
-                        
-                    
-                    </div>
-                    <div class="on-line width30">
-                    <p class="primary-color">Amount: </p><input type="text" id="input-amount" class="inputs">
-                    <p class="primary-color">Date: </p><input type="date" id="input-date" class="inputs">
-                    </div>
-                    <div class="on-line width30">
-                    <p class="primary-color">Source: </p><input type="text" id="input-source" class="inputs">
-                    
-                    </div>
-                        <div id="view-btn" class="button">Update</div>
-                       
+        <div class="on-col">
+                  <div class="on-line width70">
+                        <p class="primary-color">Type: </p>
+                        <div class="primary-color">Income</div>
+                        <input type="radio" name="type" id="input-type" value="Income">
+                        <p class="primary-color">Expense</p>
+                        <input type="radio" name="type" id="input-type" value="Expense">
+                        <p class="primary-color">Source:</p>
+                        <input type="input" class="inputs" id="input-source">
+                        <div id="exit" class="primary-color" >✖</div>
                   </div>
+                  <div class="on-line width60">
+                        <p class="primary-color">Amount:</p>
+                        <input type="input" class="inputs" id="input-amount">
+                        <p class="primary-color">Date:</p>
+                        <input type="Date" class="inputs" id="input-date">
+                     <div id="view-btn" class="primary-color padding" > Save </div>
+                  </div>
+                
+                 
+                  </div>  
+                    
                   `;
       let input_type=document.getElementById('input-type').value; 
       input_type.innerHTML=input_type;
@@ -143,8 +174,9 @@ function editTransaction(index) {
     
     
     let row=[input_type,input_source,input_amount,input_date];
-    transactions_list[index]=row;   
-    buildTable(transactions_list); 
+    transactions_list[index]=row; 
+    saveArrayToLocalStorage(transactions_list);
+    buildTable(transactions_list);  
 
       })
       let exit=document.getElementById('exit');
@@ -154,10 +186,12 @@ function editTransaction(index) {
 
 }
 function deleteTransaction(index) {
-    if (confirm("Are you sure you want to delete this transaction?")) {
+    
         transactions_list.splice(index, 1); 
+        saveArrayToLocalStorage(transactions_list);
+    
         buildTable(transactions_list); 
-    }
+    
 }
 all.addEventListener('click',()=> buildTable(transactions_list));
 min.addEventListener('click',()=>{
@@ -242,15 +276,15 @@ buildTable(temp);
 _date.addEventListener('click',()=>{
 
 });
-function saveTable(table) {
-    
-    const table_map = table.map(String);
-    localStorage.setItem('table-map', JSON.stringify(table_map));
+function saveArrayToLocalStorage(list) {
+    localStorage.setItem('my-table', JSON.stringify(list));
+  }
+
+function loadArrayFromLocalStorage() {
+    const storedArray = localStorage.getItem('my-table');
+    return storedArray ? JSON.parse(storedArray) : [];
 }
-function loadTable() {
-    let savedTable = localStorage.getItem('table-map');
-    return savedTable ? JSON.parse(savedTable) : [];
-}
+  
 /*saveTable(transactions_list);
 temp=loadTable();
 console.log(temp);*/
