@@ -1,9 +1,9 @@
 let transactions_list=[
     [type='Income',source='Monthly Salary',amount=500,date=new Date('2024/2/24')],
-    [type='Expense',source='Roadster Dinner',amount=100,date=new Date('2024/2/24')],
-    [type='Expense',source='Spinnes',amount=40,date=new Date('2024/2/24')],
+    [type='Expense',source='Roadster Dinner',amount=100,date=new Date('2024/11/24')],
+    [type='Expense',source='Spinnes',amount=40,date=new Date('2024/3/24')],
     [type='Income',source='OMT Gift',amount=100,date=new Date('2024/2/24')],
-    [type='Expense',source='Alfa Cart',amount=10,date=new Date('2024/2/24')],
+    [type='Expense',source='Alfa Cart',amount=10,date=new Date('2024/5/24')],
 ]
 let total_budget=document.getElementById('total');
 total_budget.textContent='Total budget: 1000$';
@@ -71,11 +71,11 @@ function buildTable(table){
   tableBody.innerHTML = '';
 table.forEach((transaction,index) => {
     const row = tableBody.insertRow();
-    console.log(_date.value);
+    date=transaction[3].getDate()+'/'+(transaction[3].getMonth()+1)+'/'+transaction[3].getFullYear();
     row.insertCell(0).innerText = transaction[0];
     row.insertCell(1).innerText = transaction[1];
     row.insertCell(2).innerText = transaction[2];
-    row.insertCell(3).innerText = transaction[3];
+    row.insertCell(3).innerText = date;
 
      editButton = document.createElement('edit-btn');
         editButton.innerText = '✎';
