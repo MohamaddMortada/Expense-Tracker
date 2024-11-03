@@ -1,5 +1,5 @@
 let transactions_list=[
-    [type='Income',source='Monthly Salary',amount=500,date=new Date('2024/2/24')],
+    [type='Income',source='Monthly Salary',amount=500,date= new Date('2024/2/24')],
     [type='Expense',source='Roadster Dinner',amount=100,date=new Date('2024/11/24')],
     [type='Expense',source='Spinnes',amount=40,date=new Date('2024/3/24')],
     [type='Income',source='OMT Gift',amount=100,date=new Date('2024/2/24')],
@@ -52,6 +52,7 @@ if(input_type!=="Income")
 })
 })
 
+
 let all=document.getElementById('all');
 let min=document.getElementById('min-amount');
 let max=document.getElementById('max-amount');
@@ -88,11 +89,37 @@ table.forEach((transaction,index) => {
 
 function editTransaction(index) {
     let transaction = transactions_list[index];
-    let newAmount = prompt("Edit amount:", transaction[2]);
-    if (newAmount !== null) {
-        transactions_list[index][2] = parseFloat(newAmount);
-        buildTable(transactions_list);
-    }
+    inputs=document.getElementById('inputs'); 
+    inputs.innerHTML =  ` 
+                  <div>
+                    <div class="on-line width30">
+                        <p class="primary-color">Type: </p><p class="primary-color">Income</p><input type="radio" name="type" id="input-type" value="Income">
+                                                           <p class="primary-color">Expense</p><input type="radio" name="type" id="input-type" value="Expense">
+                        
+                    
+                    </div>
+                    <div class="on-line width30">
+                    <p class="primary-color">Amount: </p><input type="text" id="input-amount" class="inputs">
+                    <p class="primary-color">Date: </p><input type="date" id="input-date" class="inputs">
+                    </div>
+                    <div class="on-line width30">
+                    <p class="primary-color">Source: </p><input type="text" id="input-source" class="inputs">
+                    
+                    </div>
+                        <div id="create-btn" class="button">Update</div>
+                  </div>
+                  `;
+      let input_type=document.getElementById('input-type').value; 
+      input_type.innerHTML=input_type;
+      let input_source=document.getElementById('input-source');
+      console.log(transactions_list[index][1]);
+      //console.log(input_source.value);
+      input_source.value=transactions_list[index][1];
+      let input_amount=document.getElementById('input-amount');
+      input_amount.value=transactions_list[index][2]
+      let input_date=document.getElementById('input-date');
+      //console.log(input_date.value.getFullYear)
+      input_date.value=transactions_list[index][3]
 }
 function deleteTransaction(index) {
     if (confirm("Are you sure you want to delete this transaction?")) {
