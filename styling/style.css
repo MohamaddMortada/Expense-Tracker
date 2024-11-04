@@ -41,8 +41,12 @@
     
   }
   .padding{
-    
+    padding-right:20px ;
     padding-left: 20px;
+  }
+  .padding-top{
+    
+    padding-top: 20px;
   }
   .margin20{
     margin: 20px;
@@ -62,8 +66,17 @@
     width:15%;
     padding: 5px;
   }
+  .budget{
+    border-radius: 30px;
+    border: 2px solid silver;
+    align-content: center;
+    color:silver;
+    margin: 20px;
+    padding-left: 10px;
+    width:12%;
+    font-size: 20px;
+  }
   .button{
-    
     align-content: center;
     border: 2px solid silver;
     color:silver;

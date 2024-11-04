@@ -21,11 +21,12 @@ while(i<transactions_list.length){
     }
     i++
 }
-total_budget.innerHTML=total+'$';
+total_budget.innerHTML='Total Budget: '+total+'$';
 
 
 let create=document.getElementById('create');
-let inputs=document.getElementById('inputs');    
+let inputs=document.getElementById('inputs'); 
+  
 create.addEventListener('click',()=>{
     inputs.innerHTML =  ` 
                   <div class="on-col">
@@ -34,7 +35,7 @@ create.addEventListener('click',()=>{
                         <div class="primary-color">Income</div>
                         <input type="radio" name="type" id="input-type" value="Income">
                         <p class="primary-color">Expense</p>
-                        <input type="radio" name="type" id="input-type" value="Expense">
+                        <input type="radio" name="type" id="input-type2" value="Expense">
                         <p class="primary-color">Source:</p>
                         <input type="input" class="inputs" id="input-source">
                         <div id="exit" class="primary-color" >✖</div>
@@ -54,9 +55,12 @@ create.addEventListener('click',()=>{
     
 let create_btn=document.getElementById('create-btn');
 create_btn.addEventListener('click',()=>{
-    let input_type=document.getElementById('input-type').value;
-if(input_type!=="Income")
-        console.log("Expense");
+    
+    let input_type=document.getElementById('input-type');
+    let input_type2=document.getElementById('input-type2');
+
+    if(input_type.checked) radio=input_type;
+    if(input_type2.checked) radio=input_type2;
     let input_source=document.getElementById('input-source').value;
     let input_amount=document.getElementById('input-amount').value;
     let input_date=document.getElementById('input-date').value;
@@ -64,7 +68,7 @@ if(input_type!=="Income")
        // console.log(input_amount.value)
     
     
-    let row=[input_type,input_source,input_amount,input_date];
+    let row=[radio.value,input_source,input_amount,input_date];
     transactions_list.push(row);
     console.log(transactions_list);
       saveArrayToLocalStorage(transactions_list);
@@ -84,7 +88,8 @@ let min=document.getElementById('min-amount');
 let max=document.getElementById('max-amount');
 let income=document.getElementById('income');
 let expense=document.getElementById('expense');
-let _date=document.getElementById('date');
+let latest=document.getElementById('latest');
+let earliest=document.getElementById('earliest');
 //date_var= new Date(_date);
 
 
@@ -99,7 +104,14 @@ table.forEach((transaction,index) => {
     row.insertCell(0).innerText = transaction[0];
     row.insertCell(1).innerText = transaction[1];
     row.insertCell(2).innerText = transaction[2];
-    row.insertCell(3).innerText = transaction[3];
+    let i=0;
+    let date_var='';
+    while(i<10){
+        date_var+=transaction[3][i];
+        i++;
+    }
+    
+    row.insertCell(3).innerText = date_var;
 
      editButton = document.createElement('edit-btn');
         editButton.innerText = ' ✎ ';
@@ -131,7 +143,7 @@ function editTransaction(index) {
                         <div class="primary-color">Income</div>
                         <input type="radio" name="type" id="input-type" value="Income">
                         <p class="primary-color">Expense</p>
-                        <input type="radio" name="type" id="input-type" value="Expense">
+                        <input type="radio" name="type" id="input-type2" value="Expense">
                         <p class="primary-color">Source:</p>
                         <input type="input" class="inputs" id="input-source">
                         <div id="exit" class="primary-color" >✖</div>
@@ -148,8 +160,11 @@ function editTransaction(index) {
                   </div>  
                     
                   `;
-      let input_type=document.getElementById('input-type').value; 
-      input_type.innerHTML=input_type;
+     let input_type=document.getElementById('input-type');
+      let input_type2=document.getElementById('input-type2'); 
+          if(transactions_list[index][0]==="Income") input_type.checked=true;
+          if(transactions_list[index][0]==="Expense") input_type2.checked=true;
+      //input_type.innerHTML=input_type;
       let input_source=document.getElementById('input-source');
       console.log(transactions_list[index][1]);
       //console.log(input_source.value);
@@ -164,8 +179,6 @@ function editTransaction(index) {
       view_btn.addEventListener('click',()=>{
 
     let input_type=document.getElementById('input-type').value;
-    if(input_type!=="Income")
-        console.log("Expense");
     let input_source=document.getElementById('input-source').value;
     let input_amount=document.getElementById('input-amount').value;
     let input_date=document.getElementById('input-date').value;
@@ -273,7 +286,54 @@ expense.addEventListener('click',()=>{
     }
 buildTable(temp);
 });
-_date.addEventListener('click',()=>{
+latest.addEventListener('click',()=>{
+    let temp=transactions_list;
+    console.log(temp)
+    let i=0;
+    let j=0;
+    while(i<temp.length){
+        j=i+1;
+        console.log(j);
+        while(j<temp.length){
+            if(temp[j][3]>temp[i][3])
+                {
+        
+                    let row=temp[j]
+                    temp[j]=temp[i]
+                    temp[i]=row
+                    
+                }
+                
+                j++;}
+
+            i++;
+            }
+    buildTable(temp);
+
+});
+earliest.addEventListener('click',()=>{
+    let temp=transactions_list;
+    console.log(temp)
+    let i=0;
+    let j=0;
+    while(i<temp.length){
+        j=i+1;
+        console.log(j);
+        while(j<temp.length){
+            if(temp[j][3]<temp[i][3])
+                {
+        
+                    let row=temp[j]
+                    temp[j]=temp[i]
+                    temp[i]=row
+                    
+                }
+                
+                j++;}
+
+            i++;
+            }
+    buildTable(temp);
 
 });
 function saveArrayToLocalStorage(list) {
