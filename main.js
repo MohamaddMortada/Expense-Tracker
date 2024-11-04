@@ -11,7 +11,7 @@ let i=0;
 const loadedArray = loadArrayFromLocalStorage();
 transactions_list=loadedArray;
   buildTable(transactions_list);
-  console.log(loadedArray); 
+ 
 
 while(i<transactions_list.length){
     if(transactions_list[i][0]=="Income")
@@ -56,11 +56,11 @@ create_btn.addEventListener('click',()=>{
     let input_amount=document.getElementById('input-amount').value;
     let input_date=document.getElementById('input-date').value; 
     let row=[radio.value,input_source,input_amount,input_date];
-    transactions_list.push(row);
+    transactions_list.unshift(row);
     if(radio.value==='Income') total+=parseInt(input_amount);
     if(radio.value==='Expense') total-=parseInt(input_amount);
     total_budget.innerHTML=total+'$';
-    console.log(transactions_list);
+   
       saveArrayToLocalStorage(transactions_list);
     buildTable(transactions_list);
     
@@ -135,15 +135,15 @@ function editTransaction(index) {
       let input_type2=document.getElementById('input-type2'); 
           if(transactions_list[index][0]==="Income") input_type.checked=true;
           if(transactions_list[index][0]==="Expense") input_type2.checked=true;
-      //input_type.innerHTML=input_type;
+   
       let input_source=document.getElementById('input-source');
-      console.log(transactions_list[index][1]);
-      //console.log(input_source.value);
+      
+     
       input_source.value=transactions_list[index][1];
       let input_amount=document.getElementById('input-amount');
       input_amount.value=transactions_list[index][2]
       let input_date=document.getElementById('input-date');
-      //console.log(input_date.value.getFullYear)
+   
       input_date.value=transactions_list[index][3]
       let view_btn=document.getElementById('view-btn');
       let num=0; 
@@ -153,7 +153,7 @@ function editTransaction(index) {
       if(input_type2.checked){
         num=parseInt(input_amount.value);
       }
-console.log(num)
+
       view_btn.addEventListener('click',()=>{
     let input_type=document.getElementById('input-type');
     let input_type2=document.getElementById('input-type2');
@@ -196,18 +196,18 @@ function deleteTransaction(index) {
 }
 all.addEventListener('click',()=> buildTable(transactions_list));
 min.addEventListener('click',()=>{
-    //console.log('min');
+   
     let temp=transactions_list;
-    console.log(temp)
+   
     let i=0;
     let j=0;
     while(i<temp.length){
         j=i+1;
-        console.log(j);
+       
         while(j<temp.length){
             if(temp[j][2]<temp[i][2])
                 {
-                    console.log(temp)
+                    
                     let row=temp[j]
                     temp[j]=temp[i]
                     temp[i]=row   
@@ -219,12 +219,12 @@ min.addEventListener('click',()=>{
 });
 max.addEventListener('click',()=>{
     let temp=transactions_list;
-    console.log(temp)
+   
     let i=0;
     let j=0;
     while(i<temp.length){
         j=i+1;
-        console.log(j);
+        
         while(j<temp.length){
             if(temp[j][2]>temp[i][2])
                 {
@@ -268,12 +268,12 @@ buildTable(temp);
 });
 latest.addEventListener('click',()=>{
     let temp=transactions_list;
-    console.log(temp)
+  
     let i=0;
     let j=0;
     while(i<temp.length){
         j=i+1;
-        console.log(j);
+        
         while(j<temp.length){
             if(temp[j][3]>temp[i][3])
                 {      
@@ -288,12 +288,12 @@ latest.addEventListener('click',()=>{
 });
 earliest.addEventListener('click',()=>{
     let temp=transactions_list;
-    console.log(temp)
+    
     let i=0;
     let j=0;
     while(i<temp.length){
         j=i+1;
-        console.log(j);
+        
         while(j<temp.length){
             if(temp[j][3]<temp[i][3])
                 {       
